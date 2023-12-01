@@ -1,0 +1,161 @@
+<!-- Created by Tsering Khando Lama C0916140  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- for responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 3 - Multimedia Presentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- button to previous slide -->
+    <button class="navigation-btn" id="prevBtn" onclick="prevSlide()">❮</button>
+
+    <!-- div to hold all the slides -->
+    <div class="presentation-container">
+        <!-- first slide div  -->
+        <!-- this will be active first or shown first -->
+        <div id="slide1" class="slide slide-displayed">
+            <h1>The Ethiopian Invasion</h1>
+            <p>An overview of why Ethiopia is preparing to attack Eritrea Next...</p>
+            <!-- from youtube -->
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/J-hABbIseGk?si=SiwuzdPMARLVgzJo"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+
+
+        <!-- second slide div -->
+        <div id="slide2" class="slide">
+            <h1>Diving deeper...</h1>
+            <p>Some interesting visuals</p>
+            <!-- this div holds the images for image slideshow -->
+            <div class="slideshow-container">
+                <!-- each image has div -->
+                <div class="imageSlide imageFade">
+                    <img src="i1.jpg" style="width:100%">
+                </div>
+
+                <div class="imageSlide imageFade">
+                    <img src="i2.jpg" style="width:100%">
+                </div>
+
+                <div class="imageSlide imageFade">
+                    <img src="i3.jpg" style="width:100%">
+                </div>
+
+                <!-- the button inside the image slide -->
+                <a class="next" onclick="nextImage(1)">❯</a>
+            </div>
+        </div>
+
+        <!-- slide 3 div -->
+        <div id="slide3" class="slide">
+            <h1>Continued...</h1>
+            <!-- dummy text from the web -->
+            <p style="text-align: justify; font-size: 16px; font-family: serif; margin-top: 2%;">
+                Ethiopia has faced various conflicts and geopolitical challenges. One notable situation is the conflict
+                in the Tigray region that began in November 2020 when Ethiopian Prime Minister Abiy Ahmed ordered
+                military operations against the Tigray People's Liberation Front (TPLF). The conflict has led to
+                widespread displacement, humanitarian concerns, and allegations of human rights abuses from various
+                parties involved. Please note that the situation may have evolved since my last update, and I recommend
+                checking the latest news sources for the most current information on any events related to Ethiopia.
+            </p>
+            <!-- audio added in  the  bg -->
+            <audio controls autoplay id="slideAudio">
+                <source src="../question2/test.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+    <!-- button to next slide -->
+    <button class="navigation-btn" id="nextBtn" onclick="nextSlide()">❯</button>
+
+
+    <!-- JS starts here -->
+    <script>
+        // let the first slide to show
+        let currentSlide = 0;
+        // selecting all slides
+        const slides = document.querySelectorAll('.slide');
+
+        // function to display the selected slides
+        function showSlide(index) {
+            // hiding previos button when the slide 1 is showing
+            if (currentSlide === 0) {
+                document.getElementById("prevBtn").style.opacity = "0";
+            }
+            else {
+                document.getElementById("prevBtn").style.opacity = "1";
+            }
+
+            // hiding next button when the final slide  is showing
+            if (currentSlide === 2) {
+                document.getElementById("nextBtn").style.opacity = "0";
+                // to autoplay audio when last slide is shown
+                var myadido = document.getElementById("slideAudio");
+                setTimeout(function () {
+                    myadido.play();
+                },
+                    500);
+            }
+            else {
+                document.getElementById("nextBtn").style.opacity = "1";
+            }
+
+            // change the classes to display slides
+            slides.forEach((slide, i) => {
+                slide.classList.remove('slide-displayed');
+                if (i === index) {
+                    slide.classList.add('slide-displayed');
+                }
+            });
+        }
+
+        // function called when the next or previous button is pressed
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // calling the function to view slides
+        showSlide(currentSlide);
+
+
+        // for image slideshow
+        function nextImage(n) {
+            changeImage(slideIndex += n);
+        }
+
+        function currentImage(n) {
+            changeImage(slideIndex = n);
+        }
+
+        // function to change image
+        function changeImage(n) {
+            let i;
+            let slides = document.getElementsByClassName("imageSlide");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex - 1].style.display = "block";
+        }
+
+        // calling the function to change image
+        changeImage(0);
+
+    </script>
+
+</body>
+
+</html>
